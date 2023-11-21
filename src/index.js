@@ -1,17 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+const ThemeContext = React.createContext('light');
+
+class App extends React.Component {
+  render() {
+    return (
+      <ThemeContext.Provider value='dark'>
+        <Toolbar />
+      </ThemeContext.Provider>
+    );
+  }
+}
+
+function Toolbar () {
+  return (
+    <div>
+      <ThemeButton />
+    </div>
+  );
+}
+
+function Button (){
+  return(
+    <button>Theme</button>
+  )
+}
+
+class ThemeButton extends React.Component {
+  static contextType = ThemeContext;
+  render(){
+    return <Button theme = {this.context} />;
+  }
+}
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+root.render(<App />);
